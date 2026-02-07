@@ -177,7 +177,7 @@ content_margin_top = 8.0
 font_size = 11
 font_color = Color(0.564706, 0.564706, 0.564706, 1)
 
-[node name="EditorMainUI" type="Control" node_paths=PackedStringArray("pixel_pen_menu", "file_menu", "edit_menu", "layer_menu", "palette_menu", "animation_menu", "view_menu", "toolbox_dock", "canvas", "canvas_dock", "debug_label", "preview_node", "preview_play_timer", "animation_panel", "layer_dock", "layers_tool", "theme_config", "layout_node", "subtool_dock")]
+[node name="EditorMainUI" type="Control" node_paths=PackedStringArray("pixel_pen_menu", "file_menu", "edit_menu", "layer_menu", "palette_menu", "animation_menu", "view_menu", "back_to_godot_button", "toolbox_dock", "canvas", "canvas_dock", "debug_label", "preview_node", "preview_play_timer", "animation_panel", "layer_dock", "layers_tool", "theme_config", "layout_node", "subtool_dock")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -193,6 +193,7 @@ layer_menu = NodePath("Background/VBoxContainer/MainMenu/MarginContainer/HBoxCon
 palette_menu = NodePath("Background/VBoxContainer/MainMenu/MarginContainer/HBoxContainer/Palette")
 animation_menu = NodePath("Background/VBoxContainer/MainMenu/MarginContainer/HBoxContainer/Animation")
 view_menu = NodePath("Background/VBoxContainer/MainMenu/MarginContainer/HBoxContainer/View")
+back_to_godot_button = NodePath("Background/VBoxContainer/MainMenu/MarginContainer/HBoxContainer/BackToGodot")
 toolbox_dock = NodePath("Background/VBoxContainer/MarginContainer/Layout/ToolBox")
 canvas = NodePath("Background/VBoxContainer/MarginContainer/Layout/Canvas/SubViewportContainer/SubViewport/EditorCanvas")
 canvas_dock = NodePath("Background/VBoxContainer/MarginContainer/Layout/Canvas")
@@ -321,6 +322,16 @@ theme_override_fonts/font = ExtResource("3_h0rgc")
 theme_override_font_sizes/font_size = 14
 text = "View"
 switch_on_hover = true
+
+[node name="MenuSpacer" type="Control" parent="Background/VBoxContainer/MainMenu/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="BackToGodot" type="Button" parent="Background/VBoxContainer/MainMenu/MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_h0rgc")
+theme_override_font_sizes/font_size = 14
+text = "Back to Godot"
 
 [node name="MarginContainer" type="MarginContainer" parent="Background/VBoxContainer"]
 layout_mode = 2

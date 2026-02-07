@@ -4,6 +4,8 @@
 #include <godot_cpp/classes/ref_counted.hpp>
 #include <godot_cpp/classes/image.hpp>
 
+#include <vector>
+
 namespace godot{
 
     class PixelPenImage : public RefCounted{

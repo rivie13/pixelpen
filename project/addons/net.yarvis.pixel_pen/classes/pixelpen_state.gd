@@ -133,6 +133,8 @@ func load_cache_project() -> bool:
 
 ## Prevent running in development mode
 func need_connection(window : Window):
+	if window.has_meta("_pixelpen_embedded") and bool(window.get_meta("_pixelpen_embedded")):
+		return true
 	var need := false
 	if window.has_method("is_window_running"):
 		need = window.is_window_running()

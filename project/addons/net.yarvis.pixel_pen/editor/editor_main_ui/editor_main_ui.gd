@@ -13,6 +13,17 @@ var export_manager := load("res://addons/net.yarvis.pixel_pen/editor/export_mana
 var Tool := load("res://addons/net.yarvis.pixel_pen/editor/editor_canvas/tool.gd")
 var MoveTool := load("res://addons/net.yarvis.pixel_pen/editor/editor_canvas/move_tool.gd")
 
+const PixelPen = preload("res://addons/net.yarvis.pixel_pen/classes/pixelpen.gd")
+const PixelPenEnum = preload("res://addons/net.yarvis.pixel_pen/classes/pixelpen_enum.gd")
+const PixelPenProject = preload("res://addons/net.yarvis.pixel_pen/classes/pixel_pen_project.gd")
+const ThemeConfig = preload("res://addons/net.yarvis.pixel_pen/classes/theme_config.gd")
+const DataBranch = preload("res://addons/net.yarvis.pixel_pen/ui/layout_split/data_branch.gd")
+const UndoRedoManager = preload("res://addons/net.yarvis.pixel_pen/classes/undo_redo_manager.gd")
+const ProjectPacker = preload("res://addons/net.yarvis.pixel_pen/classes/project_packer.gd")
+const MaskSelection = preload("res://addons/net.yarvis.pixel_pen/classes/mask_selection.gd")
+const AnimationCell = preload("res://addons/net.yarvis.pixel_pen/classes/animation_cell.gd")
+const Frame = preload("res://addons/net.yarvis.pixel_pen/classes/frame.gd")
+
 enum PixelPenID{
 	ABOUT = 0,
 	PREFERENCE,
@@ -144,6 +155,7 @@ enum ViewID{
 @export var palette_menu : MenuButton
 @export var animation_menu : MenuButton
 @export var view_menu : MenuButton
+@export var back_to_godot_button : Button
 @export var toolbox_dock : Panel
 @export var canvas : Node2D
 @export var canvas_dock : ColorRect
@@ -195,6 +207,7 @@ func _on_size_changed():
 
 
 func _ready():
+	_configure_back_button()
 	if not PixelPen.state.need_connection(get_window()):
 		if layout_node.branches == null:
 			layout_node.branches = theme_config.get_default_layout(layout_node)
@@ -219,6 +232,24 @@ func _ready():
 	_on_project_file_changed()
 	if OS.get_name() == "Android":
 		OS.request_permissions()
+
+
+func _configure_back_button():
+	if back_to_godot_button == null:
+		return
+	var embedded := get_window().has_meta("_pixelpen_embedded") and bool(get_window().get_meta("_pixelpen_embedded"))
+	back_to_godot_button.visible = embedded
+	if embedded:
+		back_to_godot_button.pressed.connect(_on_back_to_godot_pressed)
+
+
+func _on_back_to_godot_pressed():
+	var target := "3D"
+	if get_window().has_meta("_pixelpen_last_main_screen"):
+		var last_screen := str(get_window().get_meta("_pixelpen_last_main_screen"))
+		if last_screen != "" and last_screen != "PixelPen":
+			target = last_screen
+	EditorInterface.set_main_screen_editor(target)
 
 
 func _process(_delta):

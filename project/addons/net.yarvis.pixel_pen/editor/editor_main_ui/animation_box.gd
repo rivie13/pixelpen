@@ -12,6 +12,7 @@ var step_forward := load("res://addons/net.yarvis.pixel_pen/resources/icon/step-
 var skip_to_end := load("res://addons/net.yarvis.pixel_pen/resources/icon/skip-forward.svg")
 
 var frame_preview := load("res://addons/net.yarvis.pixel_pen/editor/frame_preview.tscn")
+const DEFAULT_ANIMATION_MENU_BUTTON_SIZE := 32.0
 
 @export var animation_menu_list : HBoxContainer
 @export var animation_wrapper_frame_list : VBoxContainer
@@ -24,6 +25,7 @@ var frame_preview := load("res://addons/net.yarvis.pixel_pen/editor/frame_previe
 
 var _record_prev_time : float
 var _record_fps : Array[float] = []
+var _animation_menu_ready := false
 
 
 func _ready():
@@ -43,7 +45,7 @@ func _ready():
 			if PixelPen.state.current_project != null:
 				PixelPen.state.current_project.animation_fps = value
 			)
-	create_animation_menu()
+	call_deferred("_ensure_animation_menu")
 
 
 func _exit_tree():
@@ -52,6 +54,8 @@ func _exit_tree():
 
 
 func _process(_delta):
+	if not _animation_menu_ready:
+		_ensure_animation_menu()
 	if PixelPen.state.current_project != null and PixelPen.state.current_project.animation_is_play:
 		var children := animation_frame_list.get_children()
 		for i in range(children.size()):
@@ -175,6 +179,7 @@ func _on_tool_changed(grup : int, type: int, _grab_active : bool):
 
 func create_animation_menu():
 	_clean_up()
+	_animation_menu_ready = true
 	_build_button("Skip to front",
 			skip_to_front,
 			PixelPenEnum.ToolBoxGrup.TOOL_GRUP_ANIMATION,
@@ -209,6 +214,16 @@ func create_animation_menu():
 			PixelPenEnum.ToolBoxGrup.TOOL_GRUP_ANIMATION,
 			PixelPenEnum.ToolAnimation.TOOL_ANIMATION_SKIP_TO_END,
 			false)
+
+
+func _ensure_animation_menu():
+	if _animation_menu_ready:
+		return
+	if animation_menu_list == null:
+		return
+	if not animation_menu_list.is_inside_tree():
+		return
+	create_animation_menu()
 
 
 func create_frame_list():
@@ -412,6 +427,15 @@ func create_frame_list():
 	animation_wrapper_frame_list.custom_minimum_size.y = animation_unused_frame_list.custom_minimum_size.y + animation_frame_list.custom_minimum_size.y
 
 
+func _get_animation_menu_button_size() -> float:
+	var button_size := animation_menu_list.size.y
+	if button_size <= 0 and animation_menu_list.get_parent() is Control:
+		button_size = (animation_menu_list.get_parent() as Control).size.y
+	if button_size <= 0:
+		button_size = DEFAULT_ANIMATION_MENU_BUTTON_SIZE
+	return button_size
+
+
 func _build_button(name : String,
 		texture : Texture2D,
 		grup : int,
@@ -423,7 +447,8 @@ func _build_button(name : String,
 	var btn = TextureButton.new()
 	btn.name = name
 	btn.texture_normal = texture
-	btn.custom_minimum_size.x = animation_menu_list.size.y
+	var button_size := _get_animation_menu_button_size()
+	btn.custom_minimum_size = Vector2(button_size, button_size)
 	btn.pressed.connect(func ():
 			PixelPen.state.tool_changed.emit(grup, type, can_active)
 			)
@@ -464,7 +489,8 @@ func _build_toggle_button(
 	btn.texture_normal = texture_normal
 	btn.texture_pressed = texture_pressed
 	btn.button_pressed = toggle_callback.call()
-	btn.custom_minimum_size.x = animation_menu_list.size.y
+	var button_size := _get_animation_menu_button_size()
+	btn.custom_minimum_size = Vector2(button_size, button_size)
 	btn.pressed.connect(func ():
 			PixelPen.state.tool_changed.emit(grup, type, can_active)
 			)

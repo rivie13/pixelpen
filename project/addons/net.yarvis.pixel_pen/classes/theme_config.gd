@@ -2,6 +2,12 @@
 class_name ThemeConfig
 extends Node
 
+const DataBranch = preload("res://addons/net.yarvis.pixel_pen/ui/layout_split/data_branch.gd")
+const Branch = preload("res://addons/net.yarvis.pixel_pen/ui/layout_split/branch.gd")
+
+static func _pixelpen():
+	return load("res://addons/net.yarvis.pixel_pen/classes/pixelpen.gd")
+
 
 @export_enum("Main UI:0", "Layer:1") var type : int
 
@@ -41,7 +47,7 @@ static func init_screen():
 
 
 func _ready():
-	PixelPen.state.theme_changed.connect(_on_theme_changed)
+	_pixelpen().state.theme_changed.connect(_on_theme_changed)
 	_on_theme_changed()
 
 
@@ -100,13 +106,13 @@ func use_safe_area(control : Control):
 
 func _on_theme_changed():
 	if type == 0:
-		editor_main_ui.canvas_color_base = PixelPen.state.userconfig.canvas_base_mode_color
-		editor_main_ui.canvas_color_sample = PixelPen.state.userconfig.canvas_sample_mode_color
+		editor_main_ui.canvas_color_base = _pixelpen().state.userconfig.canvas_base_mode_color
+		editor_main_ui.canvas_color_sample = _pixelpen().state.userconfig.canvas_sample_mode_color
 	
 	elif type == 1:
-		wrapper_layer_control.default_color = PixelPen.state.userconfig.layer_body_color
-		wrapper_layer_control.active_color = PixelPen.state.userconfig.layer_active_color
-		wrapper_layer_control.secondary_active_color = PixelPen.state.userconfig.layer_secondary_active_color
-		wrapper_layer_control.color = PixelPen.state.userconfig.layer_placeholder_color
-		head_layer_control.color = PixelPen.state.userconfig.layer_head_color
-		detached_layer_control.color = PixelPen.state.userconfig.box_panel_darker_color
+		wrapper_layer_control.default_color = _pixelpen().state.userconfig.layer_body_color
+		wrapper_layer_control.active_color = _pixelpen().state.userconfig.layer_active_color
+		wrapper_layer_control.secondary_active_color = _pixelpen().state.userconfig.layer_secondary_active_color
+		wrapper_layer_control.color = _pixelpen().state.userconfig.layer_placeholder_color
+		head_layer_control.color = _pixelpen().state.userconfig.layer_head_color
+		detached_layer_control.color = _pixelpen().state.userconfig.box_panel_darker_color

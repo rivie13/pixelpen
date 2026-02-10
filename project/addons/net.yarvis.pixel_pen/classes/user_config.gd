@@ -2,6 +2,12 @@
 extends Resource
 class_name UserConfig
 
+const EditorShorcut = preload("res://addons/net.yarvis.pixel_pen/classes/editor_shorcut.gd")
+const UserConfigScript = preload("res://addons/net.yarvis.pixel_pen/classes/user_config.gd")
+
+static func _pixelpen():
+	return load("res://addons/net.yarvis.pixel_pen/classes/pixelpen.gd")
+
 
 const PATH := "user://pixelpen_user_config.res"
 
@@ -47,15 +53,15 @@ const PATH := "user://pixelpen_user_config.res"
 static func load_data(reset : bool = false):
 	if not reset and ResourceLoader.exists(PATH):
 		var res = ResourceLoader.load(PATH, "", ResourceLoader.CACHE_MODE_IGNORE)
-		if res and res is UserConfig:
+		if res and res.get_script() == UserConfigScript:
 			return res
-	var new_user = UserConfig.new()
+	var new_user = UserConfigScript.new()
 	new_user.save()
 	return new_user
 
 
 func resolve_null():
-	var default = UserConfig.new()
+	var default = UserConfigScript.new()
 	for value in get_property_list():
 		if get(value["name"]) == null and default.get(value["name"]) != null:
 			set(value["name"], default.get(value["name"]))
@@ -67,9 +73,9 @@ func save():
 
 
 func make_brush_from_project(mask : Image) -> bool:
-	if PixelPen.state.current_project == null:
+	if _pixelpen().state.current_project == null:
 		return false
-	brush.push_back((PixelPen.state.current_project as PixelPenProject).get_region_project_colormap(mask))
+	brush.push_back(_pixelpen().state.current_project.get_region_project_colormap(mask))
 	save()
 	return true
 
@@ -81,9 +87,9 @@ func delete_brush(index : int):
 
 
 func make_stamp_from_project(mask : Image) -> bool:
-	if PixelPen.state.current_project == null:
+	if _pixelpen().state.current_project == null:
 		return false
-	stamp.push_back((PixelPen.state.current_project as PixelPenProject).get_region_project_image(mask))
+	stamp.push_back(_pixelpen().state.current_project.get_region_project_image(mask))
 	save()
 	return true
 

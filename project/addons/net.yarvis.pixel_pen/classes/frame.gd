@@ -2,6 +2,12 @@
 extends Resource
 class_name Frame
 
+const IndexedColorImage = preload("res://addons/net.yarvis.pixel_pen/classes/indexed_color_image.gd")
+const FrameScript = preload("res://addons/net.yarvis.pixel_pen/classes/frame.gd")
+
+static func _pixelpen():
+	return load("res://addons/net.yarvis.pixel_pen/classes/pixelpen.gd")
+
 
 @export var frame_uid : Vector3i
 @export var layers : Array[IndexedColorImage]
@@ -14,8 +20,8 @@ var frame_color : Color:
 		return frame_color
 
 
-static func create(uid : Vector3i) -> Frame:
-	var frame := Frame.new()
+static func create(uid : Vector3i):
+	var frame := FrameScript.new()
 	frame.frame_uid = uid
 	return frame
 
@@ -59,10 +65,10 @@ func find_layer(layer_uid : Vector3i) -> IndexedColorImage:
 	return null
 
 
-func get_duplicate(new_uid : bool = true) -> Frame:
-	var frame : Frame = (self as Frame).duplicate()
+func get_duplicate(new_uid : bool = true):
+	var frame := duplicate()
 	if new_uid:
-		frame.frame_uid = PixelPen.state.current_project.get_uid()
+		frame.frame_uid = _pixelpen().state.current_project.get_uid()
 	var new_layers : Array[IndexedColorImage] = frame.layers.duplicate()
 	for i in range(new_layers.size()):
 		new_layers[i] = new_layers[i].get_duplicate(new_uid)

@@ -1,6 +1,8 @@
 @tool
 extends EditorPlugin
 
+const PixelPen = preload("res://addons/net.yarvis.pixel_pen/classes/pixelpen.gd")
+const PixelPenState = preload("res://addons/net.yarvis.pixel_pen/classes/pixelpen_state.gd")
 
 var EditorWindow := load("res://addons/net.yarvis.pixel_pen/editor/editor_window.tscn")
 

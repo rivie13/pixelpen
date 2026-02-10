@@ -2,13 +2,17 @@
 extends Resource
 class_name AnimationCell
 
+const Frame = preload("res://addons/net.yarvis.pixel_pen/classes/frame.gd")
+const PixelPenProject = preload("res://addons/net.yarvis.pixel_pen/classes/pixel_pen_project.gd")
+const AnimationCellScript = preload("res://addons/net.yarvis.pixel_pen/classes/animation_cell.gd")
+
 
 @export var cell_uid : Vector3i
-@export var frame : Frame
+@export var frame : Resource
 
 
-static func create(uid : Vector3i) -> AnimationCell:
-	var cell := AnimationCell.new()
+static func create(uid : Vector3i):
+	var cell := AnimationCellScript.new()
 	cell.cell_uid = uid
 	return cell
 

@@ -50,7 +50,7 @@ static func union_polygon(image_a : Image, polygon : PackedVector2Array, size : 
 			image_a.fill_rect(src_rect, Color8(255, 0, 0))
 			return image_a
 
-	var new_selection_image := MaskSelection.create_image(polygon, size)
+	var new_selection_image := create_image(polygon, size)
 	return union_image(image_a, new_selection_image)
 
 
@@ -71,7 +71,7 @@ static func difference_polygon(image_a : Image, polygon : PackedVector2Array, si
 			image_a.fill_rect(src_rect, Color8(0, 0, 0))
 			return image_a
 	
-	var new_selection_image := MaskSelection.create_image(polygon, size)
+	var new_selection_image := create_image(polygon, size)
 	return difference_image(image_a, new_selection_image)
 
 
@@ -94,7 +94,7 @@ static func intersection_polygon(image_a : Image, polygon : PackedVector2Array, 
 			target_image.blit_rect(image_a.get_region(src_rect), Rect2i(Vector2i.ZERO, src_rect.size), src_rect.position )
 			return target_image
 	
-	var new_selection_image := MaskSelection.create_image(polygon, size)
+	var new_selection_image := create_image(polygon, size)
 	return intersection_image(image_a, new_selection_image)
 
 

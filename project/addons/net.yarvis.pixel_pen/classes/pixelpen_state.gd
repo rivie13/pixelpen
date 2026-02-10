@@ -2,6 +2,10 @@
 class_name PixelPenState
 extends Object
 
+const PixelPenProject = preload("res://addons/net.yarvis.pixel_pen/classes/pixel_pen_project.gd")
+const UserConfig = preload("res://addons/net.yarvis.pixel_pen/classes/user_config.gd")
+const ProjectPacker = preload("res://addons/net.yarvis.pixel_pen/classes/project_packer.gd")
+
 
 signal theme_changed
 

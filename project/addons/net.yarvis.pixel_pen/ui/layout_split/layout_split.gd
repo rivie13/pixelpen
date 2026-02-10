@@ -1,6 +1,9 @@
 @tool
 extends Control
 
+const DataBranch = preload("res://addons/net.yarvis.pixel_pen/ui/layout_split/data_branch.gd")
+const Branch = preload("res://addons/net.yarvis.pixel_pen/ui/layout_split/branch.gd")
+
 
 const BORDER_HOVER_WIDTH : float = 4
 const MIN_DOCK_SIZE : float = 16

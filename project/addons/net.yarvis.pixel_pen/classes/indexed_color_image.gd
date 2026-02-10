@@ -2,6 +2,12 @@
 class_name IndexedColorImage
 extends Resource
 
+const PixelPenEnum = preload("res://addons/net.yarvis.pixel_pen/classes/pixelpen_enum.gd")
+const IndexedPalette = preload("res://addons/net.yarvis.pixel_pen/classes/indexed_palette.gd")
+
+static func _pixelpen():
+	return load("res://addons/net.yarvis.pixel_pen/classes/pixelpen.gd")
+
 
 @export var layer_uid : Vector3i
 @export var label : String = "Layer"
@@ -49,7 +55,7 @@ func from_data(json_data : Dictionary) -> Error:
 func get_duplicate(new_uid : bool = true):
 	var new_me : IndexedColorImage = (self as IndexedColorImage).duplicate()
 	if new_uid:
-		new_me.layer_uid = PixelPen.state.current_project.get_uid()
+		new_me.layer_uid = _pixelpen().state.current_project.get_uid()
 	new_me.colormap = colormap.duplicate() if colormap != null else null
 	return new_me
 
@@ -100,8 +106,8 @@ func set_index_on_color_map(x : int, y : int, index_color : int):
 
 
 func paint_brush(x : int, y : int, index_color : int):
-	PixelPen.state.current_project.paint.set_image(colormap)
-	PixelPen.state.current_project.paint.set_pixel(x, y, Color8(index_color, 0, 0), PixelPen.state.current_project.brush_index)
+	_pixelpen().state.current_project.paint.set_image(colormap)
+	_pixelpen().state.current_project.paint.set_pixel(x, y, Color8(index_color, 0, 0), _pixelpen().state.current_project.brush_index)
 
 
 func get_index_on_color_map(x : int, y) -> int:

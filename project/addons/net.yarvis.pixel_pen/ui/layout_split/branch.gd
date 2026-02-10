@@ -66,9 +66,9 @@ static func create(
 			node_child : NodePath = NodePath(),
 			ratio : float = 0.5,
 			split_vertical : bool = false
-			) -> Branch:
+			) -> Resource:
 		
-	var branch : Branch = Branch.new()
+	var branch = (load("res://addons/net.yarvis.pixel_pen/ui/layout_split/branch.gd") as Script).new()
 	branch.name = name
 	branch.parent = node_parent
 	branch.child = node_child

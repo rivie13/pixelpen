@@ -1,6 +1,8 @@
 class_name ProjectPacker
 extends RefCounted
 
+const PixelPenProject = preload("res://addons/net.yarvis.pixel_pen/classes/pixel_pen_project.gd")
+
 
 static func load_project(path : String) -> PixelPenProject:
 	if path.get_extension()  == "res":

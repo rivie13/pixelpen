@@ -1,3 +1,4 @@
+@tool
 class_name MaskSelection
 extends RefCounted
 

@@ -3,7 +3,6 @@ extends Resource
 class_name AnimationCell
 
 const Frame = preload("res://addons/net.yarvis.pixel_pen/classes/frame.gd")
-const PixelPenProject = preload("res://addons/net.yarvis.pixel_pen/classes/pixel_pen_project.gd")
 const AnimationCellScript = preload("res://addons/net.yarvis.pixel_pen/classes/animation_cell.gd")
 
 
@@ -24,7 +23,7 @@ func get_data() -> Dictionary:
 	}
 
 
-func from_data(json_data : Dictionary, project : PixelPenProject) -> Error:
+func from_data(json_data : Dictionary, project) -> Error:
 	if json_data.has("cell_uid"):
 		cell_uid = str_to_var(json_data["cell_uid"]) as Vector3i
 	else:

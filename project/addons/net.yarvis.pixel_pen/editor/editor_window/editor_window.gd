@@ -1,6 +1,7 @@
 @tool
 extends Window
 
+const PixelPen = preload("res://addons/net.yarvis.pixel_pen/classes/pixelpen.gd")
 
 var EditorMainUI := load("res://addons/net.yarvis.pixel_pen/editor/editor_main_ui.tscn")
 
